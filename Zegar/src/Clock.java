@@ -17,7 +17,7 @@ import java.util.*;
  * 
  */
 
-public class Zegar {
+public class Clock {
 
 	public static void main(String[] args) {
 
