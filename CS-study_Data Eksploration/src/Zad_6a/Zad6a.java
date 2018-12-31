@@ -28,7 +28,8 @@ public class Zad6a {
 
 	// plik zrodlowy i zmienna na naglowki tabeli
 
-	static String sciezka = "C:\\java-workspace\\Eksploracja\\src\\Zad_5a_KNN\\iris.csv";
+	static String sciezka = "C:\\GIT\\Java-other\\CS-study_Data Eksploration\\src\\Zad_6a\\iris.csv";
+	
 	static String naglowki; // zmienna do przechowywania naglowkow
 
 	/*------------------------------*/
