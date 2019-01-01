@@ -99,7 +99,7 @@ public class Aglomeracyjny {
 			Count = new HashSet<>();
 			for (int i = 0; i < r; i++) {
 				Count.add(Iris.get(i).iCluster);
-				// System.out.println("Dodawanie wszystkich klastrow: "+ Iris.get(i).iCluster);
+				//  System.out.println("Dodawanie wszystkich klastrow: "+ Iris.get(i).iCluster);
 			}
 			g = Count.size();
 			//System.out.println("Rozmiar po dodaniu: " + g);

@@ -1,7 +1,7 @@
 /*
  * 24.12.2018  Algorytm Hierarchiczny Aglomeracyjny - liczenie od najmniejszych dystansów miêdzy punktami.
  * 01.01.2018  Wersja ostateczna - poprawiona petla glowna. 
- * 
+ *  
  * Dzialanie programu:
  * 1. Program wczytuje plik iris.csv (nazwa i sciezka na sztywno) i zapisuje w tabeli string
  * 2. Przerobienie stringa za pomoca split (rozdzielenie danych do tablic) i zapisanie w tablicy obiektow (klasa iris_kontener).

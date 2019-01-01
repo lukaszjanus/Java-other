@@ -5,7 +5,7 @@ package Zad_6a;
  *  Klasa sluzaca do obslugi klastrow:
  *  - przechowuje wspolrzedne, informacje o klastrach (gdyby trzeba bylo wyliczac srodki - nie wykorzystywana)
  *  - przechowuje informacje o dwóch obiektach i odleglosciach miedzy nimi
- *  
+ *   
  *  
  *  */
 
