@@ -2,105 +2,140 @@ package Zad_6a;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
 
 public class Aglomeracyjny {
 
-	ArrayList<iris_kontener> Iris;
-	ArrayList<cCenters> centers = new ArrayList(); // wspolerzedne srodkow klastrow
-	ArrayList<cCenters> cClusters = new ArrayList<>(); // nr obiektow, odleglosc i nr klastra
-	ArrayList tempCenters = new ArrayList(); // tymczasowa tablica do wyliczania nowych wspolrzednych srodkow
-	ArrayList distances = new ArrayList(); // dlugosci - tabela robocza
+	ArrayList<iris_kontener> Iris; // lista na obiekty z pliku iris.csv
+	ArrayList<cCenters> cClusters = new ArrayList<>(); // lista - nr-y obiektow i odleglosc
 
-	double dMinDist = 0;
-	double dDist = 0;
-
+	int r; // rozmiar listy wczytanych obiektow
 	static int licznik = 0;
 
-	/*-- konstruktor --*/
+	/*---------------------------------------*/
+	/*------------ konstruktor --------------*/
+	/*---------------------------------------*/
 
 	public Aglomeracyjny(ArrayList<iris_kontener> IrisLista) {
-		Iris = IrisLista; // lista obiektow z wczytanymi danymi (wszystkimi)
+		Iris = IrisLista;
+		r = Iris.size();
+		// r = 8; //do testow
 	}
 
-	/*---- start algorytmu - glowne obliczenia, petla glowna ----*/
+	/*---------------------------------------*/
+	/*-----------  Metody  ------------------*/
+	/*---------------------------------------*/
+
+	/*--- start algorytmu - petla glowna ----*/
 
 	public void fnStart() {
 
-		boolean flag = true;
+		/* startowe przypisanie srodkow - kazdy obiekt jest klastrem startowym */
 
-		// startowe przypisanie srodkow - kazdy obiekt jest klastrem startowym,
-		// 'i+1' aby ilosc klastrow nie byla liczona od '0', tylko od '1'
-
-		for (int i = 0; i < Iris.size(); i++) {
-			Iris.get(i).iCluster = i ; // nr klastra startowego dla obiektu iris
+		for (int i = 0; i < r; i++) {
+			Iris.get(i).iCluster = i;
 		}
 
-		/*-------------*/
+		double dTemp;
 
-		double dTemp = 0; // zmienna robocza do przechowywania odleglosci srodkow
-		double dDistanceTemp = Double.MAX_VALUE;
+		/* iloczyn kartezjanski - odleglosc 'kazdy obiekt z kazdym' */
 
-		for (int i = 0; i < Iris.size() - 1; i++) {
-			for (int j = i + 1; j < Iris.size() - 1; j++) {
-				// znajduje minimum odleglosci i zapisuje do tablicy obiektow - 'kazdy z kazdym'
+		for (int i = 0; i < r - 1; i++) {
+			for (int j = i + 1; j < r - 1; j++) {
+				// for (int i = 0; i < 7 - 1; i++) {
+				// for (int j = i + 1; j < 7 - 1; j++) {
 
 				dTemp = fnCheckDistances(Iris.get(i), Iris.get(j), i, j);
 				cCenters c = new cCenters(i, j, dTemp);
 				cClusters.add(c);
-
-				if (dTemp < dDistanceTemp) {
-					dDistanceTemp = dTemp; // dDistanceTemp - zmienna koncowa - wynik przeszukania odleglosci miedzy
-											// aktualnymi srodkami
-				}
+				// System.out.println(i+" "+ j + " dtemp: "+ dTemp); //roboczo
 			}
 		}
 
 		/* sortowanie obiektow wg odleglosci */
+
 		Collections.sort(cClusters);
-		int iClusterTemp;
+
 		/* petla glowna algorytmu */
+
+		int g;
+		Set<Integer> Count;
 		do {
 
-			int a=cClusters.get(0).getiObiektA();
-			int b=cClusters.get(0).getiObiektB();
-			
-			/* tu do poprawy - gdy a==b dalsza czesc instrukcji powinna byc przerwana */
-			
-			//System.out.println(a+ " klaster: "+ Iris.get(a).iCluster+", "+ b + " klaster: "+ Iris.get(b).iCluster);
-			//System.out.println("Odleglosc "+ cClusters.get(0).dDist+", ");
-			
-			
-			int tempClust=Iris.get(b).iCluster; //zmienna robocza sprzed zmiany nr-u klastra - potrzebna do petli scalajacej caly klaster
-			Iris.get(b).iCluster=Iris.get(a).iCluster;
-			
-			/* uaktualnienie 'macierzy przyleglosci' - czyli scalenie klastra */
-			
-			for(int i=0;i<Iris.size();i++) {
-				if(Iris.get(i).iCluster == tempClust) {
-					Iris.get(i).iCluster=Iris.get(a).iCluster;
-				}
-			}
-			
-			cClusters.remove(0);
-			System.out.println("Odleglosc "+ cClusters.size());
-			//i++;
-			licznik++;
-			 //Scanner scan = new Scanner(System.in);
-			 //scan.next();
-		} while (cClusters.size() > 3);
+			int a = cClusters.get(0).getiObiektA();
+			int b = cClusters.get(0).getiObiektB();
 
-		// System.out.println("\nkoniec petli");
-		// System.out.println(cClusters.size());
-		//System.out.println(dDistanceTemp);
+			if (Iris.get(b).iCluster == Iris.get(a).iCluster) {
+
+				licznik++;
+				cClusters.remove(0); // przerwanie jesli ten sam klaster
+				
+				// System.out.println(" zduplikowane " + a + " " + b);
+				//roboczo - do recznych iteracji
+
+			} else {
+				licznik++;
+				// System.out.println(" zamieniane " + a + " " + b);
+				//roboczo - do recznychiteracji
+
+				
+				int tempClust = Iris.get(b).iCluster; // zmienna nadpisywanego nr-u klastra do petli scalajacej
+				Iris.get(b).iCluster = Iris.get(a).iCluster; // przypisanie klastra
+
+				/* uaktualnienie 'macierzy przyleglosci' - czyli scalenie klastrów */
+
+				for (int i = 0; i < r; i++) {
+					if (Iris.get(i).iCluster == tempClust) {
+						Iris.get(i).iCluster = Iris.get(a).iCluster;
+					}
+				}
+				cClusters.remove(0);
+			}
+
+			/* przygotowanie warunku stop - ile jest unikalnych nr-ow klastrow */
+
+			Count = new HashSet<>();
+			for (int i = 0; i < r; i++) {
+				Count.add(Iris.get(i).iCluster);
+				// System.out.println("Dodawanie wszystkich klastrow: "+ Iris.get(i).iCluster);
+			}
+			g = Count.size();
+			//System.out.println("Rozmiar po dodaniu: " + g);
+
+			// Scanner scan = new Scanner(System.in); // do recznych iteracji - roboczo
+			// scan.next();
+		} while (g > 3);
+
+		System.out.println("\nkoniec petli glownej");
+
+		fnClusterView();
+		fnIrisView();
+
+		System.out.println("\nWarunek stopu osiagniety w " + licznik + " krokach");
+	}
+
+	/* wyswietlenie calej listy iris - nr obiektu i nr klastra */
+
+	private void fnIrisView() {
+
+		System.out.println(" Numery klastrow: ");
+
+		for (int i = 0; i < r; i++) {
+			System.out.println(i + " " + Iris.get(i).iCluster);
+		}
+	}
+
+	/* wyswietlanie tablicy z klastramni */
+
+	private void fnClusterView() {
+
+		System.out.println(" Macierz odleglosci miedzy obiektami:: ");
 
 		for (int i = 0; i < cClusters.size(); i++) {
-			 System.out.println(i + " indeks obiekt " + cClusters.get(i).fnViewOb());
+			System.out.println(i + " indeks obiekt " + cClusters.get(i).fnViewOb());
 		}
-		for (int i = 0; i < Iris.size(); i++) {
-			//System.out.println(i + " " + Iris.get(i).iCluster);
-		}
-		System.out.println("\nWarunek stopu osiagniety w " + licznik + " krokach");
 	}
 
 	/*
@@ -111,13 +146,8 @@ public class Aglomeracyjny {
 
 	private double fnCheckDistances(iris_kontener iris_kontener, iris_kontener iris_kontener2, int i, int j) {
 
-		dDist = Math.sqrt(fnDistances(iris_kontener.getSepal_length(), iris_kontener2.getSepal_length())
+		double dDist = Math.sqrt(fnDistances(iris_kontener.getSepal_length(), iris_kontener2.getSepal_length())
 				+ fnDistances(iris_kontener.getSepal_width(), iris_kontener2.getSepal_width()));
-
-//roboczo - wyswietlanie iteracji, odleglosci i wspolrzednych
-//		if(dDist<0.1)System.out.println(i+" "+ j +" Dystans: " +iris1.getSepal_length()+ " "+iris2.getSepal_length()+ " ");
-//		if(dDist<0.1)System.out.println(i+" "+ j +" Dystans: " +iris1.getSepal_width()+ " "+iris2.getSepal_width()+ " ");
-//		if(dDist<0.1)System.out.println(Math.sqrt(fnDistances(iris1.getSepal_length(), iris2.getSepal_length())));
 
 		return dDist;
 	}
@@ -127,18 +157,6 @@ public class Aglomeracyjny {
 	public double fnDistances(double a, double b) {
 
 		return Math.pow((a - b), 2);
-	}
-
-	/* wyliczanie sumy wspolrzednych - tu nie uzyta */
-
-	private void fnSumaWspolrzednych(double sepal_length, double sepal_width, int c) {
-
-		centers.get(c).setdX(sepal_length);
-		centers.get(c).setdX(sepal_width);
-
-		// System.out.println(c + " srednie: " + tempCenters[c][0] + " " +
-		// tempCenters[c][1]); // // roboczo
-
 	}
 
 }

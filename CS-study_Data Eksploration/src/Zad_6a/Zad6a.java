@@ -1,15 +1,22 @@
 /*
  * 24.12.2018  Algorytm Hierarchiczny Aglomeracyjny - liczenie od najmniejszych dystansów miêdzy punktami.
+ * 01.01.2018  Wersja ostateczna - poprawiona petla glowna. 
  * 
  * Dzialanie programu:
  * 1. Program wczytuje plik iris.csv (nazwa i sciezka na sztywno) i zapisuje w tabeli string
  * 2. Przerobienie stringa za pomoca split (rozdzielenie danych do tablic) i zapisanie w tablicy obiektow (klasa iris_kontener).
  * 3. Start algorytmu (przekazanie listy obiektow do konstruktora obiektu agl.
- * 4. Przypisanie do kazdego obiektu iris nr klastrow (jako oddzielnej listy obiektow klasy cCenters)
- * 5. Wyliczenie i wyszukanie najmniejszej odleglosci miedzy obiektami (kilka ma odleglosc = 0.0).
- * 6. Uruchomienie petli glownej programu - ponowne liczenie odleglosci i porownywanie z minimalna odlegloscia.
- * 7. W przypadku znalezienia odleglosci minimalnej aktualizacja nr klastrow i zmniejszanie listy klastrow o zduplikowane srodki.
- * 8. Powtarzanie petli do momentu uzyskania trzech klastrow. 
+ * 4. Przypisanie do kazdego obiektu iris nr klastrow.
+ * 5. Stworzenie listy cClusters do ktorej wedrowac beda informacje o odleglosciach.
+ * 6. Petla - Wyliczenie i wyszukanie najmniejszej odleglosci miedzy obiektami (kilka ma odleglosc = 0.0).
+ * 7. Sortowanie listy cCenters wg odleglosci obiektow iris.
+ * 8. Uruchomienie glownej petli programu - pobieranie z cClusters dwoch indeksow obiektow iris z najmniejsza odlegloscia (pierwsze z listy)
+ * 9. Porownanie numerow klastrow dwoch obiektow iris.
+ * 9a Jesli takie same, to usuniecie od razu pierwszego elementu listy.
+ * 9b Jesli rozne, to nadpisanie do biezacego elementu nowego nru klastra i nastepnie w petli przeszukanie, czy inne elementy maja ten sam nr klastra (scalenie); potem usuniecie elementu z listy cClusters.
+ * 10. Sprawdzenie warunku stop - dodanie do Set listy klastrow i sprawdzenie rozmiaru.
+ * 11. Jesli rozmiar > 3, przerwanie petli; jesli wiekszy - powtorzenie krokow od pkt. 8.
+ * 12. Wyswietlenie wynikow - lista elementow z aktualnym nr-em klastra.
  * 
  * Lukasz Janus
  * 

@@ -3,7 +3,8 @@ package Zad_6a;
 /*
  * 
  *  Klasa sluzaca do obslugi klastrow:
- *  - przechowuje wspolrzedne, informacje o klastrach
+ *  - przechowuje wspolrzedne, informacje o klastrach (gdyby trzeba bylo wyliczac srodki - nie wykorzystywana)
+ *  - przechowuje informacje o dwóch obiektach i odleglosciach miedzy nimi
  *  
  *  
  *  */
@@ -11,12 +12,15 @@ package Zad_6a;
 public class cCenters implements Comparable<cCenters> {
 	private double dX; // wspolrz x
 	private double dY; // wspolrz y
-	double dDist; // dystans
-	private int iObiektA;
-	private int iObiektB;
-	int iCluster = -1;
+	int iCluster = -1; // nr klastra
 
-	/* konstruktor do przechowywania wspolrzednych i nr klastra */
+	private int iObiektA; // obiekt a
+	private int iObiektB; // obiekt b
+	double dDist; // dystans
+
+	/*
+	 * konstruktor do przechowywania wspolrzednych i nr klastra - nie wykorzystywany
+	 */
 
 	public cCenters(double x, double y, int i) {
 		dX = x;
@@ -24,7 +28,7 @@ public class cCenters implements Comparable<cCenters> {
 		iCluster = i;
 	}
 
-	/* -- konstruktor do informacji o nr-ach obiektów i nr-ze klastra -- */
+	/* -- konstruktor do informacji o nr-ach obiektów i odleglosci -- */
 
 	public cCenters(int a, int b, double dist) {
 		iObiektA = a;
@@ -34,7 +38,7 @@ public class cCenters implements Comparable<cCenters> {
 
 	/*
 	 * -- metoda do przyjmowania sumy wspolrzednych (nie wykorzystywana -
-	 * przygotowana na potrzeby wyliczania nowych wspolrzednych srodkow) --
+	 * przygotowana na potrzeby wyliczania nowych wspolrzednych dla srodkow) --
 	 */
 
 	public void fnSuma(double x, double y) {
@@ -42,7 +46,10 @@ public class cCenters implements Comparable<cCenters> {
 		dY += y;
 	}
 
-	/* wyswietlanie - nry obiektow i odleglosc */
+	/*
+	 * wyswietlanie zawartosci obiektu- nr-y dwoch obiektow iris i odleglosc miedzy
+	 * nimi
+	 */
 
 	public String fnViewOb() {
 
@@ -83,8 +90,11 @@ public class cCenters implements Comparable<cCenters> {
 		this.iObiektB = iObiektB;
 	}
 
-	/* metoda obslugujaca porownywanie obiektow - wg zmiennej dDistance */
-	
+	/*
+	 * metoda obslugujaca porownywanie obiektow wg zmiennej dDistance - do
+	 * sortowania listy
+	 */
+
 	@Override
 	public int compareTo(cCenters o) {
 
