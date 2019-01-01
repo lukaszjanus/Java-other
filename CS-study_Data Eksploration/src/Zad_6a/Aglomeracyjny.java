@@ -60,32 +60,45 @@ public class Aglomeracyjny {
 		Collections.sort(cClusters);
 		int iClusterTemp;
 		/* petla glowna algorytmu */
-		int j=0;
 		do {
 
-			int a=cClusters.get(j).getiObiektA();
-			int b=cClusters.get(j).getiObiektB();
+			int a=cClusters.get(0).getiObiektA();
+			int b=cClusters.get(0).getiObiektB();
 			
-			System.out.println(a+ " klaster: "+ Iris.get(a).iCluster+", "+ b + " klaster: "+ Iris.get(b).iCluster);
-			System.out.println("Odleglosc "+ cClusters.get(j).dDist+", ");
+			/* tu do poprawy - gdy a==b dalsza czesc instrukcji powinna byc przerwana */
 			
+			//System.out.println(a+ " klaster: "+ Iris.get(a).iCluster+", "+ b + " klaster: "+ Iris.get(b).iCluster);
+			//System.out.println("Odleglosc "+ cClusters.get(0).dDist+", ");
+			
+			
+			int tempClust=Iris.get(b).iCluster; //zmienna robocza sprzed zmiany nr-u klastra - potrzebna do petli scalajacej caly klaster
 			Iris.get(b).iCluster=Iris.get(a).iCluster;
-			cClusters.remove(j);
+			
+			/* uaktualnienie 'macierzy przyleglosci' - czyli scalenie klastra */
+			
+			for(int i=0;i<Iris.size();i++) {
+				if(Iris.get(i).iCluster == tempClust) {
+					Iris.get(i).iCluster=Iris.get(a).iCluster;
+				}
+			}
+			
+			cClusters.remove(0);
+			System.out.println("Odleglosc "+ cClusters.size());
 			//i++;
 			licznik++;
-			 Scanner scan = new Scanner(System.in);
-			 scan.next();
-		} while (cClusters.size() >= 3);
+			 //Scanner scan = new Scanner(System.in);
+			 //scan.next();
+		} while (cClusters.size() > 3);
 
 		// System.out.println("\nkoniec petli");
 		// System.out.println(cClusters.size());
 		//System.out.println(dDistanceTemp);
 
 		for (int i = 0; i < cClusters.size(); i++) {
-			// System.out.println(i + " indeks obiekt " + cClusters.get(i).fnViewOb());
+			 System.out.println(i + " indeks obiekt " + cClusters.get(i).fnViewOb());
 		}
 		for (int i = 0; i < Iris.size(); i++) {
-			System.out.println(i + " " + Iris.get(i).iCluster);
+			//System.out.println(i + " " + Iris.get(i).iCluster);
 		}
 		System.out.println("\nWarunek stopu osiagniety w " + licznik + " krokach");
 	}
